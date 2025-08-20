@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Une lettre pour toi, ma princesse</title>
+    <style>
+        /* --- Configuration Générale --- */
+        body {
+            background-color: #fdeef4;
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 20px;
+        }
+
+        /* --- Le Message d'excuse --- */
+        h1 {
+            color: #d13076;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            /* Effet machine à écrire */
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .1em solid #d13076; /* Le curseur */
+            width: 0;
+            animation:
+                typing-h1 3s steps(23, end) 2s forwards,
+                blink-caret .75s step-end infinite 2s;
+        }
+
+        p#message {
+            color: #5e4d55;
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            text-align: left;
+            opacity: 1; /* Géré par JS */
+        }
+
+        /* Keyframes pour l'animation de texte */
+        @keyframes typing-h1 {
+            from { width: 0; }
+            to { width: 15em; } /* Largeur approx. du H1 */
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #d13076; }
+        }
+
+        /* --- Animation des Fleurs --- */
+        .flower {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            transform: scale(0.8);
+        }
+
+        .petal {
+            position: absolute;
+            width: 50px;
+            height: 100px;
+            background: linear-gradient(to bottom, #ffb8d1, #e78aa7);
+            border-radius: 50% 50% 0 0;
+            left: 75px;
+            top: 50px;
+            transform-origin: bottom center;
+            opacity: 0;
+            animation: open-petal 4s ease-out forwards;
+        }
+
+        .flower-center {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #fff0a3;
+            border-radius: 50%;
+            left: 80px;
+            top: 80px;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeInCenter 2s ease 3s forwards;
+        }
+
+        @keyframes open-petal {
+            from { opacity: 0; transform: scale(0) rotate(var(--start-rot, 0deg)); }
+            to { opacity: 1; transform: scale(1) rotate(var(--end-rot)); }
+        }
+        .petal:nth-child(1) { --end-rot: 0deg; }
+        .petal:nth-child(2) { --end-rot: 60deg; }
+        .petal:nth-child(3) { --end-rot: 120deg; }
+        .petal:nth-child(4) { --end-rot: 180deg; }
+        .petal:nth-child(5) { --end-rot: 240deg; }
+        .petal:nth-child(6) { --end-rot: 300deg; }
+
+        @keyframes fadeInCenter {
+            to { opacity: 1; }
+        }
+
+        /* Position et délai de chaque fleur */
+        .flower1 { top: 5%; left: 40%; transform: scale(0.9); }
+        .flower2 { top: 10%; left: 5%; transform: scale(0.6); }
+        .flower3 { top: 15%; right: 8%; transform: scale(0.7); }
+        .flower4 { bottom: 15%; left: 15%; transform: scale(0.5); }
+        .flower5 { bottom: 12%; right: 12%; transform: scale(0.6); }
+        .flower6 { top: 30%; left: 20%; transform: scale(0.4); }
+        .flower7 { top: 35%; right: 25%; transform: scale(0.5); }
+        .flower8 { bottom: 5%; left: 45%; transform: scale(0.7); }
+
+        /* Décalage de l'animation pour chaque fleur */
+        .flower .petal:nth-child(1) { --base-delay: 1s; }
+        .flower .petal:nth-child(2) { --base-delay: 1.2s; }
+        .flower .petal:nth-child(3) { --base-delay: 1.4s; }
+        .flower .petal:nth-child(4) { --base-delay: 1.6s; }
+        .flower .petal:nth-child(5) { --base-delay: 1.8s; }
+        .flower .petal:nth-child(6) { --base-delay: 2s; }
+
+        .flower2 .petal { animation-delay: calc(var(--base-delay) + 0.5s); }
+        .flower3 .petal { animation-delay: calc(var(--base-delay) + 0.9s); }
+        .flower4 .petal { animation-delay: calc(var(--base-delay) + 1.3s); }
+        .flower5 .petal { animation-delay: calc(var(--base-delay) + 1.6s); }
+        .flower6 .petal { animation-delay: calc(var(--base-delay) + 1.9s); }
+        .flower7 .petal { animation-delay: calc(var(--base-delay) + 2.2s); }
+        .flower8 .petal { animation-delay: calc(var(--base-delay) + 2.5s); }
+
+        .flower2 .flower-center { animation-delay: 3.5s; }
+        .flower3 .flower-center { animation-delay: 3.9s; }
+        .flower4 .flower-center { animation-delay: 4.3s; }
+        .flower5 .flower-center { animation-delay: 4.6s; }
+        .flower6 .flower-center { animation-delay: 4.9s; }
+        .flower7 .flower-center { animation-delay: 5.2s; }
+        .flower8 .flower-center { animation-delay: 5.5s; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Fleurs animées -->
+    <div class="flower flower1"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+    <div class="flower flower2"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+    <div class="flower flower3"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+    <div class="flower flower4"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+    <div class="flower flower5"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+    <div class="flower flower6"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+    <div class="flower flower7"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+    <div class="flower flower8"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
+
+    <div class="container">
+        <h1>Pardon, ma princesse...</h1>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageEl = document.getElementById('message');
+            const text = `Je comprends totalement que tu sois déçue, tu as toutes les raisons de l’être. Je reconnais que je n’ai pas joué franc jeu… Pour être honnête, toute la journée je n’étais pas à l’aise, simplement parce que je n’avais pas de tes nouvelles. En fait, je voulais juste que tu me découvres un peu plus, sans que ton avis soit bloqué sur le fait que je sois un 2007, et c’est pour cela que je te l’ai caché. Je suis vraiment désolé… Comme tu l’as dit, le feeling passe bien, et je pense aussi que c’est vrai. Alors ne laisse pas mon erreur gâcher ça. Passe une excellente nuit.`;
+            let index = 0;
+
+            // Commence à écrire le message après l'animation du titre (5 secondes)
+            setTimeout(() => {
+                const typingInterval = setInterval(() => {
+                    if (index < text.length) {
+                        messageEl.innerHTML += text.charAt(index);
+                        index++;
+                    } else {
+                        clearInterval(typingInterval);
+                    }
+                }, 40); // Vitesse d'écriture (en millisecondes)
+            }, 5500);
+        });
+    </script>
+
+</body>
+</html>

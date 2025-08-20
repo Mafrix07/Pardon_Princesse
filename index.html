@@ -30,14 +30,11 @@
             color: #d13076;
             font-size: 2.5em;
             margin-bottom: 20px;
-            /* Effet machine à écrire */
             overflow: hidden;
             white-space: nowrap;
-            border-right: .1em solid #d13076; /* Le curseur */
+            border-right: .1em solid #d13076;
             width: 0;
-            animation:
-                typing-h1 3s steps(23, end) 2s forwards,
-                blink-caret .75s step-end infinite 2s;
+            animation: typing-h1 3s steps(23, end) 2s forwards, blink-caret .75s step-end infinite 2s;
         }
 
         p#message {
@@ -46,106 +43,90 @@
             max-width: 600px;
             margin: 0 auto 40px;
             text-align: left;
-            opacity: 1; /* Géré par JS */
         }
 
-        /* Keyframes pour l'animation de texte */
-        @keyframes typing-h1 {
-            from { width: 0; }
-            to { width: 15em; } /* Largeur approx. du H1 */
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: #d13076; }
-        }
+        @keyframes typing-h1 { from { width: 0; } to { width: 15em; } }
+        @keyframes blink-caret { from, to { border-color: transparent; } 50% { border-color: #d13076; } }
 
         /* --- Animation des Fleurs --- */
-        .flower {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            transform: scale(0.8);
-        }
+        .flower { position: absolute; width: 200px; height: 200px; transform: scale(0.8); z-index: 10; }
+        .petal { position: absolute; width: 50px; height: 100px; background: linear-gradient(to bottom, #ffb8d1, #e78aa7); border-radius: 50% 50% 0 0; left: 75px; top: 50px; transform-origin: bottom center; opacity: 0; animation: open-petal 4s ease-out forwards; }
+        .flower-center { position: absolute; width: 40px; height: 40px; background: #fff0a3; border-radius: 50%; left: 80px; top: 80px; z-index: 10; opacity: 0; animation: fadeInCenter 2s ease 3s forwards; }
+        @keyframes open-petal { from { opacity: 0; transform: scale(0) rotate(var(--start-rot, 0deg)); } to { opacity: 1; transform: scale(1) rotate(var(--end-rot)); } }
+        .petal:nth-child(1) { --end-rot: 0deg; } .petal:nth-child(2) { --end-rot: 60deg; } .petal:nth-child(3) { --end-rot: 120deg; } .petal:nth-child(4) { --end-rot: 180deg; } .petal:nth-child(5) { --end-rot: 240deg; } .petal:nth-child(6) { --end-rot: 300deg; }
+        @keyframes fadeInCenter { to { opacity: 1; } }
+        .flower1 { top: 5%; left: 40%; transform: scale(0.9); } .flower2 { top: 10%; left: 5%; transform: scale(0.6); } .flower3 { top: 15%; right: 8%; transform: scale(0.7); } .flower4 { bottom: 15%; left: 15%; transform: scale(0.5); } .flower5 { bottom: 12%; right: 12%; transform: scale(0.6); } .flower6 { top: 30%; left: 20%; transform: scale(0.4); } .flower7 { top: 35%; right: 25%; transform: scale(0.5); } .flower8 { bottom: 5%; left: 45%; transform: scale(0.7); }
+        .flower .petal:nth-child(1) { --base-delay: 1s; } .flower .petal:nth-child(2) { --base-delay: 1.2s; } .flower .petal:nth-child(3) { --base-delay: 1.4s; } .flower .petal:nth-child(4) { --base-delay: 1.6s; } .flower .petal:nth-child(5) { --base-delay: 1.8s; } .flower .petal:nth-child(6) { --base-delay: 2s; }
+        .flower2 .petal { animation-delay: calc(var(--base-delay) + 0.5s); } .flower3 .petal { animation-delay: calc(var(--base-delay) + 0.9s); } .flower4 .petal { animation-delay: calc(var(--base-delay) + 1.3s); } .flower5 .petal { animation-delay: calc(var(--base-delay) + 1.6s); } .flower6 .petal { animation-delay: calc(var(--base-delay) + 1.9s); } .flower7 .petal { animation-delay: calc(var(--base-delay) + 2.2s); } .flower8 .petal { animation-delay: calc(var(--base-delay) + 2.5s); }
+        .flower2 .flower-center { animation-delay: 3.5s; } .flower3 .flower-center { animation-delay: 3.9s; } .flower4 .flower-center { animation-delay: 4.3s; } .flower5 .flower-center { animation-delay: 4.6s; } .flower6 .flower-center { animation-delay: 4.9s; } .flower7 .flower-center { animation-delay: 5.2s; } .flower8 .flower-center { animation-delay: 5.5s; }
 
-        .petal {
+        /* --- Animation des Coeurs --- */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Derrière tout le reste */
+        }
+        .heart {
             position: absolute;
-            width: 50px;
-            height: 100px;
-            background: linear-gradient(to bottom, #ffb8d1, #e78aa7);
-            border-radius: 50% 50% 0 0;
-            left: 75px;
-            top: 50px;
-            transform-origin: bottom center;
+            bottom: -50px; /* Commence en dehors de l'écran */
+            width: 20px;
+            height: 20px;
             opacity: 0;
-            animation: open-petal 4s ease-out forwards;
+            animation: floatUp 10s linear infinite;
         }
-
-        .flower-center {
+        .heart::before, .heart::after {
+            content: '';
             position: absolute;
-            width: 40px;
-            height: 40px;
-            background: #fff0a3;
-            border-radius: 50%;
-            left: 80px;
-            top: 80px;
-            z-index: 10;
-            opacity: 0;
-            animation: fadeInCenter 2s ease 3s forwards;
+            top: 0;
+            width: 20px;
+            height: 30px;
+            background-color: #e2264d; /* Un rouge-rose vibrant */
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
         }
 
-        @keyframes open-petal {
-            from { opacity: 0; transform: scale(0) rotate(var(--start-rot, 0deg)); }
-            to { opacity: 1; transform: scale(1) rotate(var(--end-rot)); }
-        }
-        .petal:nth-child(1) { --end-rot: 0deg; }
-        .petal:nth-child(2) { --end-rot: 60deg; }
-        .petal:nth-child(3) { --end-rot: 120deg; }
-        .petal:nth-child(4) { --end-rot: 180deg; }
-        .petal:nth-child(5) { --end-rot: 240deg; }
-        .petal:nth-child(6) { --end-rot: 300deg; }
-
-        @keyframes fadeInCenter {
-            to { opacity: 1; }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
         }
 
-        /* Position et délai de chaque fleur */
-        .flower1 { top: 5%; left: 40%; transform: scale(0.9); }
-        .flower2 { top: 10%; left: 5%; transform: scale(0.6); }
-        .flower3 { top: 15%; right: 8%; transform: scale(0.7); }
-        .flower4 { bottom: 15%; left: 15%; transform: scale(0.5); }
-        .flower5 { bottom: 12%; right: 12%; transform: scale(0.6); }
-        .flower6 { top: 30%; left: 20%; transform: scale(0.4); }
-        .flower7 { top: 35%; right: 25%; transform: scale(0.5); }
-        .flower8 { bottom: 5%; left: 45%; transform: scale(0.7); }
-
-        /* Décalage de l'animation pour chaque fleur */
-        .flower .petal:nth-child(1) { --base-delay: 1s; }
-        .flower .petal:nth-child(2) { --base-delay: 1.2s; }
-        .flower .petal:nth-child(3) { --base-delay: 1.4s; }
-        .flower .petal:nth-child(4) { --base-delay: 1.6s; }
-        .flower .petal:nth-child(5) { --base-delay: 1.8s; }
-        .flower .petal:nth-child(6) { --base-delay: 2s; }
-
-        .flower2 .petal { animation-delay: calc(var(--base-delay) + 0.5s); }
-        .flower3 .petal { animation-delay: calc(var(--base-delay) + 0.9s); }
-        .flower4 .petal { animation-delay: calc(var(--base-delay) + 1.3s); }
-        .flower5 .petal { animation-delay: calc(var(--base-delay) + 1.6s); }
-        .flower6 .petal { animation-delay: calc(var(--base-delay) + 1.9s); }
-        .flower7 .petal { animation-delay: calc(var(--base-delay) + 2.2s); }
-        .flower8 .petal { animation-delay: calc(var(--base-delay) + 2.5s); }
-
-        .flower2 .flower-center { animation-delay: 3.5s; }
-        .flower3 .flower-center { animation-delay: 3.9s; }
-        .flower4 .flower-center { animation-delay: 4.3s; }
-        .flower5 .flower-center { animation-delay: 4.6s; }
-        .flower6 .flower-center { animation-delay: 4.9s; }
-        .flower7 .flower-center { animation-delay: 5.2s; }
-        .flower8 .flower-center { animation-delay: 5.5s; }
+        /* Variation des coeurs */
+        .heart:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; transform: scale(0.8); }
+        .heart:nth-child(2) { left: 20%; animation-duration: 8s; animation-delay: 1s; transform: scale(0.6); }
+        .heart:nth-child(3) { left: 30%; animation-duration: 15s; animation-delay: 3s; transform: scale(1); }
+        .heart:nth-child(4) { left: 40%; animation-duration: 9s; animation-delay: 4s; transform: scale(0.7); }
+        .heart:nth-child(5) { left: 50%; animation-duration: 11s; animation-delay: 1.5s; transform: scale(0.9); }
+        .heart:nth-child(6) { left: 60%; animation-duration: 14s; animation-delay: 5s; transform: scale(0.6); }
+        .heart:nth-child(7) { left: 70%; animation-duration: 10s; animation-delay: 2s; transform: scale(1.1); }
+        .heart:nth-child(8) { left: 80%; animation-duration: 7s; animation-delay: 6s; transform: scale(0.5); }
+        .heart:nth-child(9) { left: 90%; animation-duration: 13s; animation-delay: 3.5s; transform: scale(0.8); }
+        .heart:nth-child(10) { left: 5%; animation-duration: 10s; animation-delay: 7s; transform: scale(0.7); }
 
     </style>
 </head>
 <body>
+
+    <div class="hearts-container">
+        <div class="heart"></div> <div class="heart"></div> <div class="heart"></div>
+        <div class="heart"></div> <div class="heart"></div> <div class="heart"></div>
+        <div class="heart"></div> <div class="heart"></div> <div class="heart"></div>
+        <div class="heart"></div>
+    </div>
 
     <!-- Fleurs animées -->
     <div class="flower flower1"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div></div>
@@ -171,10 +152,9 @@ La vérité, c’est que je voulais que tu apprennes à me connaître pour ce qu
 
 Je suis vraiment désolé si tu t’es sentie trahie, ce n’était pas mon intention. Tu comptes déjà pour moi plus que tu ne l’imagines, et je n’aimerais pas que cette erreur efface tout ce qu’on a construit jusqu’ici. Comme tu l’as dit, le feeling passe bien, et moi aussi je le ressens fort. Alors j’espère qu’on pourra dépasser ce petit faux pas pour continuer à mieux se découvrir.
 
-Je voulais que tu saches tout ça avant que tu t’endormes. Passe une excellente nuit, et garde en tête que je suis sincèrement désolé. Ton crush Mario-F`;
+Je voulais que tu saches tout ça avant que tu t’endormes. Passe une excellente nuit, et garde en tête que je suis sincèrement désolé.`;
             let index = 0;
 
-            // Commence à écrire le message après l'animation du titre (5 secondes)
             setTimeout(() => {
                 const typingInterval = setInterval(() => {
                     if (index < text.length) {
@@ -183,10 +163,13 @@ Je voulais que tu saches tout ça avant que tu t’endormes. Passe une excellent
                     } else {
                         clearInterval(typingInterval);
                     }
-                }, 40); // Vitesse d'écriture (en millisecondes)
+                }, 40);
             }, 5500);
         });
     </script>
+
+</body>
+</html>
 
 </body>
 </html>
